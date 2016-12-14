@@ -1,0 +1,33 @@
+{
+  "name": "sppurge",
+  "description": "Delete files from SharePoint document libraries using Node.js without hassles",
+  "version": "0.0.1",
+  "author": "Andrew Koltyakov <andrew.koltyakov@gmail.com>",
+  "main": "./src/index.js",
+  "engines": {
+    "node": ">=4.0.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/koltyakov/sppull/issues"
+  },
+  "keywords": [
+    "sharepoint",
+    "delete",
+    "files",
+    "rest"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/koltyakov/sppurge.git"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/koltyakov/sppurge#readme",
+  "dependencies": {
+    "bluebird": "^3.4.6",
+    "path": "^0.12.7",
+    "sp-request": "^2.0.3"
+  }
+}
