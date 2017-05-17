@@ -1,5 +1,6 @@
 node_modules
-test/config/config.js
-test/config/config.json
+/dist
+/test/config/private.js
+/test/config/private.json
 npm-debug.log
-./yarn.lock
+.vscode

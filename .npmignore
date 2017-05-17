@@ -1,4 +1,7 @@
-test
 .vscode
-typings
-docs
+/test
+/config/private.json
+npm-debug.log
+/src
+/docs
+!/dist
