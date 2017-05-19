@@ -15,6 +15,12 @@ export class Delete {
         this.context = context;
         this.options = options;
 
+        if (typeof this.context.creds === 'undefined') {
+            this.context.creds = {
+                ...(this.context as any)
+            };
+        }
+
         let filePath = null;
         if (typeof this.options.filePath === 'undefined') {
             if (typeof this.options.localFilePath !== 'undefined' && typeof this.options.localBasePath !== 'undefined') {

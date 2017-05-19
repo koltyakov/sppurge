@@ -36,8 +36,9 @@ sppurge(context, options)
 
 ##### Context:
 - `siteUrl` - SharePoint site (SPWeb) url [string, **required**]
-- `username` - user name for SP authentication [string, optional in case of some auth methods]
-- `password` - password [string, optional in case of some auth methods]
+- `creds`
+  - `username` - user name for SP authentication [string, optional in case of some auth methods]
+  - `password` - password [string, optional in case of some auth methods]
 
 **Additional authentication options:**
 
