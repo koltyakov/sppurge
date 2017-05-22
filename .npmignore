@@ -3,6 +3,7 @@
 /config/private.json
 /src
 /docs
+/node_modules
 .vscode
 npm-debug.log
 gulpfile.js
