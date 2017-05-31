@@ -1,4 +1,3 @@
-import * as Promise from 'bluebird';
 import * as sprequest from 'sp-request';
 
 import { IContext } from '../interfaces';
@@ -8,14 +7,10 @@ export default class RestAPI {
     private context: IContext;
     private spr: sprequest.ISPRequest;
 
-    constructor() {
-        //
-    }
-
     public deleteFile(context: IContext, filePath: string): Promise<any> {
         this.context = context;
         this.spr = this.getCachedRequest();
-        return this.spr.requestDigest(this.context.siteUrl)
+        return <any>this.spr.requestDigest(this.context.siteUrl)
             .then((digest) => {
                 let restUrl;
                 restUrl = this.context.siteUrl + '/_api/Web/GetFileByServerRelativeUrl(@FilePath)' +
