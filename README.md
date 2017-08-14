@@ -5,6 +5,10 @@
 [![npm version](https://badge.fury.io/js/sppurge.svg)](https://badge.fury.io/js/sppurge)
 [![Downloads](https://img.shields.io/npm/dm/sppurge.svg)](https://www.npmjs.com/package/sppurge)
 
+---
+### Need help on SharePoint with Node.js? Join our gitter chat and ask question! [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/sharepoint-node/Lobby)
+---
+
 Node.js module for files deletion from SharePoint document libraries.
 
 ## Supported SharePoint versions:
