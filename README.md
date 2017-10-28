@@ -8,19 +8,21 @@
 
 Node.js module for files deletion from SharePoint document libraries.
 
-## Supported SharePoint versions:
+## Supported SharePoint versions
+
 - SharePoint Online
 - SharePoint 2013
 - SharePoint 2016
 
-## How to use:
+## How to use
 
-### Install:
+### Install
+
 ```bash
 npm install sppurge --save-dev
 ```
 
-### Usage:
+### Usage
 
 ```javascript
 var sppurge = require("sppurge");
@@ -29,13 +31,14 @@ var context = {/*...*/};
 var options = {/*...*/};
 
 sppurge(context, options)
-    .then(successHandler)
-    .catch(errorHandler);
+  .then(successHandler)
+  .catch(errorHandler);
 ```
 
-#### Arguments:
+#### Arguments
 
-##### Context:
+##### Context
+
 - `siteUrl` - SharePoint site (SPWeb) url [string, **required**]
 - `creds`
   - `username` - user name for SP authentication [string, optional in case of some auth methods]
@@ -47,7 +50,8 @@ Since communication module (sp-request), which is used in sppurge, had received 
 
 For more information please check node-sp-auth [credential options](https://github.com/s-KaiNet/node-sp-auth#params) and [wiki pages](https://github.com/s-KaiNet/node-sp-auth/wiki).
 
-##### Options:
+##### Options
+
 - `folder` - relative folder in SharePoint to concat with filePath [string, optional, default: `` (empty string)]
 - `filePath` - relative file path, with extention [string, required in general, optional if `localFilePath` and `localBasePath` are both provided]
 - `localFilePath` - local full path to file [string, optional]
@@ -57,40 +61,42 @@ Result file path is formed based on the following rule:
 
 - `siteUrl` + `folder` + `filePath`
 - If `filePath` is empty, then:
- - `filePath` = path.resolve(localFilePath).replace(path.resolve(localBasePath), "")
+  - `filePath` = path.resolve(localFilePath).replace(path.resolve(localBasePath), "")
 
 #### successHandler
+
 Callback gets called upon successful file deletion.
 
 #### errorHandler
+
 Callback gets executed in case of exception inside `sppurge`. Accepts error object as first argument for callback.
 
-### Basic usage example:
+### Basic usage example
 
 ```javascript
 var sppurge = require("sppurge");
 
 var context = {
-    siteUrl: "http://contoso.sharepoint.com/subsite",
-    username: "user@contoso.com",
-    password: "_Password_"
+  siteUrl: "http://contoso.sharepoint.com/subsite",
+  username: "user@contoso.com",
+  password: "_Password_"
 };
 
 var options = {
-    folder: "/_catalogs/masterpage/spf/module_name",
-    filePath: "/scripts/dummy-file.js"
+  folder: "/_catalogs/masterpage/spf/module_name",
+  filePath: "/scripts/dummy-file.js"
 };
 
 sppurge(context, options)
-    .then(function(deletionResults) {
-        console.log("File has been deleted");
-    })
-    .catch(function(err) {
-        console.log("Core error has happened", err);
-    });
+  .then(function(deletionResults) {
+    console.log("File has been deleted");
+  })
+  .catch(function(err) {
+    console.log("Core error has happened", err);
+  });
 ```
 
-### Within Gulp task:
+### Within Gulp task
 
 ```javascript
 var gulp = require('gulp');
@@ -102,44 +108,44 @@ var path = require('path');
 var config = require('./gulp.config'); // Getting settings for SPPurge and SPSave
 
 gulp.task("watch-assets", function () {
-    return watch(config.watch.assets, function (event) {
-        // Base local folder path, e.g. 'src' from which 
-        // project's files are mapped to SharePoint folder
-        var watchBase = config.watch.base;
+  return watch(config.watch.assets, function (event) {
+    // Base local folder path, e.g. 'src' from which
+    // project's files are mapped to SharePoint folder
+    var watchBase = config.watch.base;
 
-        // When file is deleted event value is "unlink"
-        if (event.event === "unlink") {
-            var sppurgeOptions = {
-                folder: config.sppurge.options.spRootFolder,
-                filePath: path.resolve(event.path).replace(path.resolve(watchBase), "")
-            };
-            // OR:
-            // var sppurgeOptions = {
-            //     folder: config.sppurge.options.spRootFolder,
-            //     localFilePath: event.path,
-            //     localBasePath: watchBase
-            // };
-            sppurge(config.sppurge.context, sppurgeOptions)
-                .then(function(res) {
-                    console.log("File has been deleted: " + res);
-                })
-                .catch(function(err) {
-                    console.log("Error", err.message);
-                });
-        } else {
-            // Saving files to SharePoint
-            gulp.src(event.path, {
-                base: watchBase
-            }).pipe(
-                spsave(
-                    // SPSave's core options, see more in spsave documentation
-                    config.spsave.coreOptions,
-                    // node-sp-auth / spsave credential object
-                    config.spsave.creds
-                )
-            );
-        }
-    });
+    // When file is deleted event value is "unlink"
+    if (event.event === "unlink") {
+      var sppurgeOptions = {
+        folder: config.sppurge.options.spRootFolder,
+        filePath: path.resolve(event.path).replace(path.resolve(watchBase), "")
+      };
+      // OR:
+      // var sppurgeOptions = {
+      //   folder: config.sppurge.options.spRootFolder,
+      //   localFilePath: event.path,
+      //   localBasePath: watchBase
+      // };
+      sppurge(config.sppurge.context, sppurgeOptions)
+        .then(function(res) {
+          console.log("File has been deleted: " + res);
+        })
+        .catch(function(err) {
+          console.log("Error", err.message);
+        });
+    } else {
+      // Saving files to SharePoint
+      gulp.src(event.path, {
+        base: watchBase
+      }).pipe(
+        spsave(
+          // SPSave's core options, see more in spsave documentation
+          config.spsave.coreOptions,
+          // node-sp-auth / spsave credential object
+          config.spsave.creds
+        )
+      );
+    }
+  });
 });
 ```
 
