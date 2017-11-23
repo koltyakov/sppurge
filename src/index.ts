@@ -6,7 +6,7 @@ import { formatTime } from './utils';
 
 import { IContext, IOptions } from './interfaces';
 
-export class Delete {
+export class SPPurge {
 
   private restApi: RestAPI;
 
@@ -14,8 +14,7 @@ export class Delete {
     this.restApi = new RestAPI();
   }
 
-  public sppurge (context: IContext, options: IOptions): Promise<any> {
-
+  public sppurge = (context: IContext, options: IOptions): Promise<any> => {
     let filePath = null;
     if (typeof options.filePath === 'undefined') {
       if (typeof options.localFilePath !== 'undefined' && typeof options.localBasePath !== 'undefined') {
@@ -28,13 +27,15 @@ export class Delete {
     filePath = filePath.replace('http:/', '').replace('https:/', '');
     filePath = filePath.replace(filePath.split('/')[0], '');
 
-    console.log(`[${formatTime(new Date())}]`, 'SPPurge:', path.relative('./', options.filePath), '(delete)');
+    console.log(`[${formatTime(new Date())}]`, 'SPPurge:',
+      path.relative(process.cwd(), path.join(options.localBasePath, options.filePath)),
+      '(delete)');
     return this.restApi.deleteFile(context, filePath);
   }
 
 }
 
-const { sppurge } = new Delete();
-export default sppurge;
-
 export { IContext, IOptions } from './interfaces';
+
+const sppurge = new SPPurge();
+export default sppurge.sppurge;
