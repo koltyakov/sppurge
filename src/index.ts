@@ -2,40 +2,39 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 import RestAPI from './api';
+import { formatTime } from './utils';
+
 import { IContext, IOptions } from './interfaces';
 
 export class Delete {
 
-  private context: IContext;
-  private options: IOptions;
   private restApi: RestAPI;
 
-  public sppurge (context: IContext, options: IOptions): Promise<any> {
-    this.context = context;
-    this.options = options;
+  constructor () {
+    this.restApi = new RestAPI();
+  }
 
-    if (typeof this.context.creds === 'undefined') {
-      this.context.creds = {
-        ...(this.context as any)
-      };
-    }
+  public sppurge (context: IContext, options: IOptions): Promise<any> {
 
     let filePath = null;
-    if (typeof this.options.filePath === 'undefined') {
-      if (typeof this.options.localFilePath !== 'undefined' && typeof this.options.localBasePath !== 'undefined') {
-        this.options.filePath = path.resolve(this.options.localFilePath).replace(path.resolve(this.options.localBasePath), '');
+    if (typeof options.filePath === 'undefined') {
+      if (typeof options.localFilePath !== 'undefined' && typeof options.localBasePath !== 'undefined') {
+        options.filePath = path.resolve(options.localFilePath)
+          .replace(path.resolve(options.localBasePath), '');
       }
     }
-    filePath = context.siteUrl + '/' + (this.options.folder || '') + '/' + options.filePath;
+    filePath = `${context.siteUrl}/${(options.folder || '')}/${options.filePath}`;
     filePath = filePath.replace(/\\/g, '/').replace(/\/\//g, '/');
     filePath = filePath.replace('http:/', '').replace('https:/', '');
     filePath = filePath.replace(filePath.split('/')[0], '');
 
-    console.log("sppurge: deleting file '" + filePath + "'");
+    console.log(`[${formatTime(new Date())}]`, 'SPPurge:', path.relative('./', options.filePath), '(delete)');
     return this.restApi.deleteFile(context, filePath);
   }
 
 }
 
-const sppurge = new Delete();
-module.exports = sppurge;
+const { sppurge } = new Delete();
+export default sppurge;
+
+export { IContext, IOptions } from './interfaces';

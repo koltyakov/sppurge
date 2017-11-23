@@ -8,9 +8,6 @@
     "moduleResolution": "node",
     "noImplicitAny": false,
     "removeComments": true,
-    "types": [
-      "node",
-      "sp-request"
-    ]
+    "types": ["node"]
   }
 }
