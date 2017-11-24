@@ -1,6 +1,6 @@
 node_modules
 /dist
-/test/config/private.js
-/test/config/private.json
+/config/**/private.json
+/config/**/private.*.json
 npm-debug.log
 .vscode

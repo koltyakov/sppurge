@@ -40,6 +40,7 @@
     "gulp-tslint": "^8.1.2",
     "gulp-typescript": "^3.2.3",
     "merge-stream": "^1.0.1",
+    "node-sp-auth-config": "^2.1.1",
     "ts-node": "^3.3.0",
     "tslint": "^5.8.0",
     "tslint-config-standard": "^7.0.0",

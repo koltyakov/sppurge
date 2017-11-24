@@ -1,8 +1,9 @@
 import * as sprequest from 'sp-request';
 
+import { escapeURIComponent } from './../utils';
 import { IContext } from '../interfaces';
 
-export default class RestAPI {
+export class Delete {
 
   private context: IContext;
   private spr: sprequest.ISPRequest;
@@ -14,7 +15,27 @@ export default class RestAPI {
       .then((digest) => {
         let restUrl;
         restUrl = this.context.siteUrl + '/_api/Web/GetFileByServerRelativeUrl(@FilePath)' +
-          '?@FilePath=\'' + encodeURIComponent(filePath) + '\'';
+          '?@FilePath=\'' + escapeURIComponent(filePath) + '\'';
+
+        return this.spr.post(restUrl, {
+          headers: {
+            'X-RequestDigest': digest,
+            'X-HTTP-Method': 'DELETE',
+            'accept': 'application/json; odata=verbose',
+            'content-type': 'application/json; odata=verbose'
+          }
+        });
+      }) as any;
+  }
+
+  public deleteFolder (context: IContext, folderPath: string): Promise<any> {
+    this.context = context;
+    this.spr = this.getCachedRequest();
+    return this.spr.requestDigest(this.context.siteUrl)
+      .then((digest) => {
+        let restUrl;
+        restUrl = this.context.siteUrl + '/_api/Web/GetFolderByServerRelativeUrl(@FolderPath)' +
+          '?@FolderPath=\'' + escapeURIComponent(folderPath) + '\'';
 
         return this.spr.post(restUrl, {
           headers: {
