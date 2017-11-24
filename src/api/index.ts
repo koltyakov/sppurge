@@ -9,34 +9,22 @@ export class Delete {
   private spr: sprequest.ISPRequest;
 
   public deleteFile (context: IContext, filePath: string): Promise<any> {
-    this.context = context;
-    this.spr = this.getCachedRequest();
-    return this.spr.requestDigest(this.context.siteUrl)
-      .then((digest) => {
-        let restUrl;
-        restUrl = this.context.siteUrl + '/_api/Web/GetFileByServerRelativeUrl(@FilePath)' +
-          '?@FilePath=\'' + escapeURIComponent(filePath) + '\'';
-
-        return this.spr.post(restUrl, {
-          headers: {
-            'X-RequestDigest': digest,
-            'X-HTTP-Method': 'DELETE',
-            'accept': 'application/json; odata=verbose',
-            'content-type': 'application/json; odata=verbose'
-          }
-        });
-      }) as any;
+    let restUrl = `${this.context.siteUrl}/_api/Web/GetFileByServerRelativeUrl(@FilePath)` +
+      `?@FilePath='${escapeURIComponent(filePath)}'`;
+    return this.deleteRequest(context, restUrl);
   }
 
   public deleteFolder (context: IContext, folderPath: string): Promise<any> {
+    let restUrl = `${this.context.siteUrl}/_api/Web/GetFolderByServerRelativeUrl(@FolderPath)` +
+      `?@FolderPath='${escapeURIComponent(folderPath)}'`;
+    return this.deleteRequest(context, restUrl);
+  }
+
+  private deleteRequest = (context: IContext, restUrl: string): Promise<any> => {
     this.context = context;
     this.spr = this.getCachedRequest();
     return this.spr.requestDigest(this.context.siteUrl)
-      .then((digest) => {
-        let restUrl;
-        restUrl = this.context.siteUrl + '/_api/Web/GetFolderByServerRelativeUrl(@FolderPath)' +
-          '?@FolderPath=\'' + escapeURIComponent(folderPath) + '\'';
-
+      .then(digest => {
         return this.spr.post(restUrl, {
           headers: {
             'X-RequestDigest': digest,
