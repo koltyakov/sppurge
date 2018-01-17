@@ -6,7 +6,7 @@ import { formatTime } from './utils';
 
 import { IContext, IOptions } from './interfaces';
 
-export class SPPurge {
+class SPPurge {
 
   private restApi: Delete;
 
@@ -14,7 +14,7 @@ export class SPPurge {
     this.restApi = new Delete();
   }
 
-  public sppurge = (context: IContext, options: IOptions): Promise<any> => {
+  public delete = (context: IContext, options: IOptions): Promise<any> => {
     let filePath = null;
     if (typeof options.filePath === 'undefined') {
       if (typeof options.localFilePath !== 'undefined' && typeof options.localBasePath !== 'undefined') {
@@ -34,3 +34,7 @@ export class SPPurge {
   }
 
 }
+
+const sppurge = (new SPPurge()).delete;
+
+export default sppurge;

@@ -1,7 +1,6 @@
-import { SPPurge } from './SPPurge';
-
-const { sppurge } = new SPPurge();
-export default sppurge;
+import sppurge from './SPPurge';
 
 export { IContext, IOptions } from './interfaces';
 export { Delete } from './api';
+
+export default sppurge;
