@@ -1,17 +1,13 @@
 {
   "name": "sppurge",
   "description": "Delete files from SharePoint document libraries using Node.js without hassles",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "author": "Andrew Koltyakov <andrew.koltyakov@gmail.com>",
   "main": "./dist/index.js",
   "typings": "./dist/index",
-  "engines": {
-    "node": ">=4.0.0"
-  },
   "scripts": {
-    "build": "npm install && gulp tsc",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "upgrade": "ncu --upgrade --upgradeAll && yarn upgrade"
+    "build": "rm -rf ./dist && tsc -p .",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bugs": {
     "url": "https://github.com/koltyakov/sppurge/issues"
@@ -29,21 +25,14 @@
   "license": "MIT",
   "homepage": "https://github.com/koltyakov/sppurge#readme",
   "dependencies": {
-    "path": "^0.12.7",
-    "sp-request": "^2.1.1"
+    "node-sp-auth": "^2.5.2",
+    "sp-request": "^2.1.3"
   },
   "devDependencies": {
-    "@types/node": "^8.0.47",
-    "del": "^3.0.0",
-    "gulp": "^3.9.1",
-    "gulp-sourcemaps": "^2.6.1",
-    "gulp-tslint": "^8.1.2",
-    "gulp-typescript": "^3.2.3",
-    "merge-stream": "^1.0.1",
-    "ts-node": "^3.3.0",
-    "tslint": "^5.8.0",
-    "tslint-config-standard": "^7.0.0",
-    "typescript": "^2.5.3",
-    "yargs": "^8.0.2"
+    "@types/node": "^10.5.0",
+    "ts-node": "^7.0.0",
+    "tslint": "^5.10.0",
+    "tslint-config-standard": "^7.1.0",
+    "typescript": "^2.9.2"
   }
 }

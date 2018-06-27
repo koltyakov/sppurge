@@ -16,7 +16,7 @@ export class Delete {
 
     if (typeof this.context.creds === 'undefined') {
       this.context.creds = {
-        ...(this.context as any)
+        ...this.context as any
       };
     }
 

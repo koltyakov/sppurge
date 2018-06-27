@@ -2,15 +2,24 @@
   "compilerOptions": {
     "target": "es5",
     "module": "commonjs",
-    "lib": ["es2017"],
+    "lib": ["es2017", "dom"],
     "sourceMap": true,
     "declaration": true,
     "moduleResolution": "node",
     "noImplicitAny": false,
     "removeComments": true,
-    "types": [
-      "node",
-      "sp-request"
-    ]
-  }
+    "newLine": "LF",
+    "skipLibCheck": true,
+    "types": ["node"],
+    "outDir": "dist"
+  },
+  "include": [
+    "src/**/*.ts",
+    "test/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "test"
+  ]
 }
