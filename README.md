@@ -25,7 +25,7 @@ npm install sppurge --save-dev
 ### Usage
 
 ```javascript
-var sppurge = require("sppurge");
+var sppurge = require("sppurge").default;
 
 var context = {/*...*/};
 var options = {/*...*/};
@@ -74,7 +74,7 @@ Callback gets executed in case of exception inside `sppurge`. Accepts error obje
 ### Basic usage example
 
 ```javascript
-var sppurge = require("sppurge");
+var sppurge = require("sppurge").default;
 
 var context = {
   siteUrl: "http://contoso.sharepoint.com/subsite",
@@ -102,7 +102,7 @@ sppurge(context, options)
 var gulp = require('gulp');
 var watch = require("gulp-watch");      // Allows more than gulp.watch, is recommended
 var spsave = require("gulp-spsave");    // Optional SPSave, but what is the reason to use SPPurge without SPSave?
-var sppurge = require('sppurge');
+var sppurge = require('sppurge').default;
 var path = require('path');
 
 var config = require('./gulp.config'); // Getting settings for SPPurge and SPSave
