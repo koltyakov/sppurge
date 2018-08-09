@@ -25,10 +25,10 @@ npm install sppurge --save-dev
 ### Usage
 
 ```javascript
-var sppurge = require("sppurge").default;
+const sppurge = require('sppurge').default;
 
-var context = {/*...*/};
-var options = {/*...*/};
+const context = {/*...*/};
+const options = {/*...*/};
 
 sppurge(context, options)
   .then(successHandler)
@@ -61,7 +61,7 @@ Result file path is formed based on the following rule:
 
 - `siteUrl` + `folder` + `filePath`
 - If `filePath` is empty, then:
-  - `filePath` = path.resolve(localFilePath).replace(path.resolve(localBasePath), "")
+  - `filePath` = path.resolve(localFilePath).replace(path.resolve(localBasePath), '')
 
 #### successHandler
 
@@ -74,64 +74,60 @@ Callback gets executed in case of exception inside `sppurge`. Accepts error obje
 ### Basic usage example
 
 ```javascript
-var sppurge = require("sppurge").default;
+const sppurge = require('sppurge').default;
 
-var context = {
-  siteUrl: "http://contoso.sharepoint.com/subsite",
-  username: "user@contoso.com",
-  password: "_Password_"
+const context = {
+  siteUrl: 'http://contoso.sharepoint.com/subsite',
+  username: 'user@contoso.com',
+  password: '_Password_'
 };
 
-var options = {
-  folder: "/_catalogs/masterpage/spf/module_name",
-  filePath: "/scripts/dummy-file.js"
+const options = {
+  folder: '/_catalogs/masterpage/spf/module_name',
+  filePath: '/scripts/dummy-file.js'
 };
 
 sppurge(context, options)
-  .then(function(deletionResults) {
-    console.log("File has been deleted");
+  .then(deletionResults => {
+    console.log('File has been deleted');
   })
-  .catch(function(err) {
-    console.log("Core error has happened", err);
+  .catch(err => {
+    console.log('Core error has happened', err);
   });
 ```
 
 ### Within Gulp task
 
 ```javascript
-var gulp = require('gulp');
-var watch = require("gulp-watch");      // Allows more than gulp.watch, is recommended
-var spsave = require("gulp-spsave");    // Optional SPSave, but what is the reason to use SPPurge without SPSave?
-var sppurge = require('sppurge').default;
-var path = require('path');
+const gulp = require('gulp');
+const watch = require('gulp-watch');      // Allows more than gulp.watch, is recommended
+const spsave = require('gulp-spsave');    // Optional SPSave, but what is the reason to use SPPurge without SPSave?
+const sppurge = require('sppurge').default;
+const path = require('path');
 
-var config = require('./gulp.config'); // Getting settings for SPPurge and SPSave
+const config = require('./gulp.config'); // Getting settings for SPPurge and SPSave
 
-gulp.task("watch-assets", function () {
+gulp.task('watch-assets', () => {
   return watch(config.watch.assets, function (event) {
     // Base local folder path, e.g. 'src' from which
     // project's files are mapped to SharePoint folder
     var watchBase = config.watch.base;
 
     // When file is deleted event value is "unlink"
-    if (event.event === "unlink") {
+    if (event.event === 'unlink') {
       var sppurgeOptions = {
         folder: config.sppurge.options.spRootFolder,
-        filePath: path.resolve(event.path).replace(path.resolve(watchBase), "")
+        filePath: path.resolve(event.path).replace(path.resolve(watchBase), '')
       };
       // OR:
-      // var sppurgeOptions = {
+      // const sppurgeOptions = {
       //   folder: config.sppurge.options.spRootFolder,
       //   localFilePath: event.path,
       //   localBasePath: watchBase
       // };
       sppurge(config.sppurge.context, sppurgeOptions)
-        .then(function(res) {
-          console.log("File has been deleted: " + res);
-        })
-        .catch(function(err) {
-          console.log("Error", err.message);
-        });
+        .then(res => console.log(`File has been deleted: ${res}`))
+        .catch(err => console.log('Error', err.message));
     } else {
       // Saving files to SharePoint
       gulp.src(event.path, {
