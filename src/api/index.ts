@@ -21,17 +21,16 @@ export class Delete {
 
   private deleteRequest = (context: IContext, restUrl: string): Promise<any> => {
     this.spr = this.getCachedRequest(context);
-    return this.spr.requestDigest(context.siteUrl)
-      .then(digest => {
-        return this.spr.post(restUrl, {
-          headers: {
-            'X-RequestDigest': digest,
-            'X-HTTP-Method': 'DELETE',
-            'Accept': 'application/json; odata=verbose',
-            'Content-Type': 'application/json; odata=verbose'
-          }
-        });
-      }) as any;
+    return this.spr.requestDigest(context.siteUrl).then(digest => {
+      return this.spr.post(restUrl, {
+        headers: {
+          'X-RequestDigest': digest,
+          'X-HTTP-Method': 'DELETE',
+          'Accept': 'application/json; odata=verbose',
+          'Content-Type': 'application/json; odata=verbose'
+        }
+      });
+    }) as any;
   }
 
   private getCachedRequest = (context: IContext): sprequest.ISPRequest => {

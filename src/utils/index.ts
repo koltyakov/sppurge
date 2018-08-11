@@ -8,3 +8,15 @@ export const formatTime = (date: Date) => {
 export const escapeURIComponent = (input: string): string => {
   return encodeURIComponent(input.replace(/'/g, '%27'));
 };
+
+export const trimMultiline = (multiline: string): string => {
+  return multiline
+    .split('\n')
+    .map(line => line.trim())
+    .filter(line => line.length > 0)
+    .join('').trim();
+};
+
+export const isUrlHttps = (url: string): boolean => {
+  return url.split('://')[0].toLowerCase() === 'https';
+};
