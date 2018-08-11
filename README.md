@@ -71,16 +71,12 @@ Callback gets called upon successful file deletion.
 
 Callback gets executed in case of exception inside `sppurge`. Accepts error object as first argument for callback.
 
-### Basic usage example
+### Basic usage example (delete a single file)
 
 ```javascript
 const sppurge = require('sppurge').default;
 
-const context = {
-  siteUrl: 'http://contoso.sharepoint.com/subsite',
-  username: 'user@contoso.com',
-  password: '_Password_'
-};
+const context = { /* auth context */ };
 
 const options = {
   folder: '/_catalogs/masterpage/spf/module_name',
@@ -89,7 +85,24 @@ const options = {
 
 sppurge(context, options)
   .then(deletionResults => {
-    console.log('File has been deleted');
+    console.log('A file has been deleted');
+  })
+  .catch(err => {
+    console.log('Core error has happened', err);
+  });
+```
+
+### Basic usage example (delete a folder)
+
+```javascript
+const { Delete } = require('sppurge');
+
+const context = { /* auth context */ };
+const sppurge = new Delete();
+
+sppurge.deleteFolder(context, '/sites/site/folder/repative/path')
+  .then(deletionResults => {
+    console.log('A folder has been deleted');
   })
   .catch(err => {
     console.log('Core error has happened', err);
