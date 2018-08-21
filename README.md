@@ -158,6 +158,56 @@ gulp.task('watch-assets', () => {
 });
 ```
 
+
+### Create-React-App - Delete js build folder then upload all files from /build folder
+
+```
+const { AuthConfig } = require('node-sp-auth-config');
+const { default: sppurge } = require('sppurge');
+const spsave = require("spsave").spsave;
+
+const authConfig = new AuthConfig({
+  configPath: './config/private.json',
+  encryptPassword: true,
+  saveConfigOnDisk: true
+});
+
+const projectFolder = "MyFolder";
+
+authConfig.getContext()
+  .then(({ siteUrl, authOptions: creds }) => {
+    const ctx = { siteUrl, creds };
+
+    const sppurgeDeleteOptions = {
+      folder: projectFolder + '/static/js',
+      fileRegExp: new RegExp('(.*)/(.*)\.(js|txt|map)', 'i'), //all .js, .map, or .txt files , ignore case
+      //filePath: 'SiteAssets/trash.txt' //if just one file
+    };
+
+    sppurge(ctx,sppurgeDeleteOptions)
+      .then(_ => console.log('=========Files Deleted========='))
+      .then( _ => {
+          const spsaveCoreOptions = {
+              siteUrl: ctx.siteUrl,
+              notification: true,
+              checkin: true,
+              checkinType: 2 //0=minor, 1=major, 2=overwrite
+          };
+
+          const spsaveFileOptions = {
+              glob: ['build/*.*', 'build/static/css/*.*' , 'build/static/js/*.*', 'build/static/media/*.*'], //source files
+              base: 'build',
+              folder: projectFolder, //destination folder
+          };
+
+          spsave(spsaveCoreOptions, ctx.creds , spsaveFileOptions)
+            .then( _ => console.log('=========Files Uploaded=========') );
+      });
+  })
+  .catch(err => console.log(err.message));
+```
+
+
 ### Passwords storage
 
 To eliminate any local password storing if preferable to use any two-way hashing technique, like [cpass](https://github.com/koltyakov/cpass).
