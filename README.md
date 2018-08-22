@@ -11,8 +11,9 @@ Node.js module for files deletion from SharePoint document libraries.
 ## Supported SharePoint versions
 
 - SharePoint Online
-- SharePoint 2013
+- SharePoint 2019
 - SharePoint 2016
+- SharePoint 2013
 
 ## How to use
 
@@ -158,13 +159,19 @@ gulp.task('watch-assets', () => {
 });
 ```
 
+### Create React App usage scenario
 
-### Create-React-App - Delete js build folder then upload all files from /build folder
+> Delete JS's build folder then upload all files from/build folder
 
-```
+One of the architectural decision in CRA is using hashes as a part of assets filenames. This allows avoiding issues related to browser cache. However, it can be challenging in term of deployment to SharePoint assets folders, as all filenames are different on each build. The further sample shows a simple use case approach of deleting files based on folder and name pattern.
+
+```javascript
 const { AuthConfig } = require('node-sp-auth-config');
-const { default: sppurge } = require('sppurge');
-const spsave = require("spsave").spsave;
+const sppurge = require('sppurge').default;
+const spsave = require('spsave').spsave;
+
+// client-side project's assets destination folder
+const targetFolder = '_catalogs/masterpage/assets/cra-project';
 
 const authConfig = new AuthConfig({
   configPath: './config/private.json',
@@ -172,41 +179,34 @@ const authConfig = new AuthConfig({
   saveConfigOnDisk: true
 });
 
-const projectFolder = "MyFolder";
+authConfig.getContext().then(({ siteUrl, authOptions: creds }) => {
 
-authConfig.getContext()
-  .then(({ siteUrl, authOptions: creds }) => {
-    const ctx = { siteUrl, creds };
+  const deleteOptions = {
+    folder: `${targetFolder}/static/js`,
+    fileRegExp: new RegExp('(.*)/(.*)\.(js|map)', 'i'), // include .js, .map to delete
+    // filePath: 'SiteAssets/trash.txt' // for single file deletion
+  };
 
-    const sppurgeDeleteOptions = {
-      folder: projectFolder + '/static/js',
-      fileRegExp: new RegExp('(.*)/(.*)\.(js|txt|map)', 'i'), //all .js, .map, or .txt files , ignore case
-      //filePath: 'SiteAssets/trash.txt' //if just one file
-    };
+  const spsaveCoreOptions = {
+    siteUrl,
+    notification: true,
+    checkin: true,
+    checkinType: 2 // 0=minor, 1=major, 2=overwrite
+  };
 
-    sppurge(ctx,sppurgeDeleteOptions)
-      .then(_ => console.log('=========Files Deleted========='))
-      .then( _ => {
-          const spsaveCoreOptions = {
-              siteUrl: ctx.siteUrl,
-              notification: true,
-              checkin: true,
-              checkinType: 2 //0=minor, 1=major, 2=overwrite
-          };
+  const spsaveFileOptions = {
+    glob: [ 'build/**/*.*' ],
+    base: 'build',
+    folder: targetFolder
+  };
 
-          const spsaveFileOptions = {
-              glob: ['build/*.*', 'build/static/css/*.*' , 'build/static/js/*.*', 'build/static/media/*.*'], //source files
-              base: 'build',
-              folder: projectFolder, //destination folder
-          };
+  return sppurge({ siteUrl, creds }, deleteOptions)
+    .then(_ => console.log('=== Files Deleted ==='));
+    .then(_ => spsave(spsaveCoreOptions, creds, spsaveFileOptions))
+    .then(_ => console.log('=== Files Uploaded ==='));
 
-          spsave(spsaveCoreOptions, ctx.creds , spsaveFileOptions)
-            .then( _ => console.log('=========Files Uploaded=========') );
-      });
-  })
-  .catch(err => console.log(err.message));
+}).catch(err => console.log(err.message));
 ```
-
 
 ### Passwords storage
 
