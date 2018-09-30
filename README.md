@@ -11,9 +11,7 @@ Node.js module for files deletion from SharePoint document libraries.
 ## Supported SharePoint versions
 
 - SharePoint Online
-- SharePoint 2019
-- SharePoint 2016
-- SharePoint 2013
+- SharePoint On-Prem (2019, 2016, 2013)
 
 ## How to use
 

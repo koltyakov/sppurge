@@ -2,19 +2,29 @@ import * as path from 'path';
 
 import { Delete } from './api';
 import { Content } from './api/content';
-import { formatTime } from './utils';
+import { Context } from './api/context';
+import { formatTime, escapeUriPath } from './utils';
 
-import { IContext, IOptions, IOptionsByFilePath, IOptionsByLocalBase, IOptionsByRegExp } from './interfaces';
+import { IAuthOptions } from 'node-sp-auth';
+import {
+  IContext,
+  IOptions,
+  IOptionsByFilePath,
+  IOptionsByLocalBase,
+  IOptionsByRegExp,
+  IWebPathsCache
+} from './interfaces';
 
-class SPPurge {
+export class SPPurge {
 
   private restApi: Delete;
+  private webPathsCache: IWebPathsCache[] = [];
 
   constructor() {
     this.restApi = new Delete();
   }
 
-  public delete = (context: IContext, options: IOptions): Promise<any> => {
+  public delete(context: IContext, options: IOptions): Promise<void> {
     // Delete base by root folder and regular expression check
     if (
       typeof (options as IOptionsByRegExp).fileRegExp === 'object' &&
@@ -34,7 +44,6 @@ class SPPurge {
     // Delete base by strict path conditions
       let filePath = (options as IOptionsByFilePath).filePath;
       const folderPath = (options as IOptionsByFilePath).folder || '';
-      const localBasePath = (options as IOptionsByLocalBase).localBasePath || './';
 
       if (typeof (options as IOptionsByFilePath).filePath === 'undefined') {
         if (
@@ -51,16 +60,52 @@ class SPPurge {
       fileUri = fileUri.replace('http:/', '').replace('https:/', '');
       fileUri = fileUri.replace(fileUri.split('/')[0], '');
 
-      console.log(`[${formatTime(new Date())}]`, 'SPPurge:',
-        path.relative(process.cwd(), path.join(localBasePath, filePath)),
-        '(delete)');
+      // const localBasePath = (options as IOptionsByLocalBase).localBasePath || './';
+      // path.relative(process.cwd(), path.join(localBasePath, filePath))
+
+      console.log(`[${formatTime(new Date())}]`, `SPPurge: ${fileUri} (delete)`);
 
       return this.restApi.deleteFile(context, fileUri);
     }
   }
 
+  public deleteFileByAbsolutePath(creds: IAuthOptions, fileAbsolutePath: string): Promise<void> {
+    const fileAbsPath = escapeUriPath(fileAbsolutePath);
+    return this.getWebByAnyChildUrl(creds, fileAbsolutePath).then(siteUrl => {
+      return this.delete({ siteUrl, creds }, {
+        filePath: fileAbsPath.replace(`${siteUrl}/`, '')
+      } as IOptionsByFilePath);
+    });
+  }
+
+  private async getWebByAnyChildUrl(creds: IAuthOptions, fileAbsolutePath: string): Promise<string> {
+    const fileAbsPath = escapeUriPath(fileAbsolutePath);
+    let wpc: IWebPathsCache[] = [];
+    // Search web url in cache
+    wpc = this.webPathsCache.filter(({ folders }) => {
+      return folders.filter(f => {
+        return fileAbsPath.indexOf(f) !== -1;
+      }).length > 0;
+    });
+    if (wpc.length > 0) {
+      return wpc[0].webUrl;
+    }
+    // Getting web url with API requests
+    const { Url } = await new Context(creds).getWebByAnyChildUrl(fileAbsPath);
+    const webUrl = escapeUriPath(Url);
+    const folder = `${webUrl}/${fileAbsPath.replace(`${webUrl}/`, '').split('/')[0]}`;
+    wpc = this.webPathsCache.filter(w => w.webUrl === webUrl);
+    if (wpc.length === 0) {
+      this.webPathsCache.push({
+        webUrl,
+        folders: [ folder ]
+      });
+    }
+    return webUrl;
+  }
+
 }
 
-const sppurge = (new SPPurge()).delete;
+const sppurge = new SPPurge().delete;
 
 export default sppurge;

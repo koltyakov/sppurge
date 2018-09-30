@@ -25,3 +25,8 @@ export interface IOptionsByRegExp {
   fileRegExp: RegExp;
   folder: string;
 }
+
+export interface IWebPathsCache {
+  webUrl: string;
+  folders: string[];
+}

@@ -20,3 +20,7 @@ export const trimMultiline = (multiline: string): string => {
 export const isUrlHttps = (url: string): boolean => {
   return url.split('://')[0].toLowerCase() === 'https';
 };
+
+export const escapeUriPath = (url: string): string => {
+  return encodeURIComponent(url.toLowerCase()).replace(/%3A/g, ':').replace(/%2F/g, '/');
+};

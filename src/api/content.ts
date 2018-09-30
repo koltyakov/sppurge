@@ -19,7 +19,7 @@ export class Content {
     });
   }
 
-  public getFolderContent = (context: IContext, spRootFolder: string): Promise<IContent> => {
+  public getFolderContent(context: IContext, spRootFolder: string): Promise<IContent> {
     return new Promise((resolve, reject) => {
       let restUrl: string;
       this.spr = this.getCachedRequest(context);
@@ -70,7 +70,7 @@ export class Content {
     });
   }
 
-  private getCachedRequest = (context: IContext): sprequest.ISPRequest => {
+  private getCachedRequest(context: IContext): sprequest.ISPRequest {
     return this.spr || sprequest.create(context.creds);
   }
 
