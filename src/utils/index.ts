@@ -22,5 +22,9 @@ export const isUrlHttps = (url: string): boolean => {
 };
 
 export const escapeUriPath = (url: string): string => {
-  return encodeURIComponent(url.toLowerCase()).replace(/%3A/g, ':').replace(/%2F/g, '/');
+  return encodeURIComponent(decodeURIComponent(
+    url.toLowerCase()
+  ))
+    .replace(/%3A/g, ':')
+    .replace(/%2F/g, '/');
 };

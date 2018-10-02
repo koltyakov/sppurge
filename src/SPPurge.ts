@@ -63,7 +63,7 @@ export class SPPurge {
       // const localBasePath = (options as IOptionsByLocalBase).localBasePath || './';
       // path.relative(process.cwd(), path.join(localBasePath, filePath))
 
-      console.log(`[${formatTime(new Date())}]`, `SPPurge: ${fileUri} (delete)`);
+      console.log(`[${formatTime(new Date())}]`, `SPPurge: ${decodeURIComponent(fileUri)} (delete)`);
 
       return this.restApi.deleteFile(context, fileUri);
     }
