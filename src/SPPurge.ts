@@ -41,7 +41,7 @@ export class SPPurge {
           }
         });
     } else {
-    // Delete base by strict path conditions
+      // Delete base by strict path conditions
       let filePath = (options as IOptionsByFilePath).filePath;
       const folderPath = (options as IOptionsByFilePath).folder || '';
 
@@ -106,6 +106,7 @@ export class SPPurge {
 
 }
 
-const sppurge = new SPPurge().delete;
+const sppurge = new SPPurge();
+const purge = sppurge.delete.bind(sppurge);
 
-export default sppurge;
+export default purge;

@@ -53,6 +53,4 @@ async function publishAll(profiles: IProfile[], context: IAuthContext) {
 getContext()
   .then(context => publishAll(publishProfile, context))
   .then(console.log)
-  .catch(error => {
-    console.log(error);
-  });
+  .catch(error => console.error(error.message));

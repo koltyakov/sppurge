@@ -14,4 +14,4 @@ getContext()
 
   })
   .then(_ => console.log('Done'))
-  .catch(console.error);
+  .catch(error => console.error(error.message));

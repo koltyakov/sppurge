@@ -1,4 +1,4 @@
-import sppurge, { IOptionsByRegExp, IContext } from './../src';
+import sppurge, { IOptionsByFilePath, IContext } from '../src';
 import { getContext } from './utils/context';
 
 getContext()
@@ -9,9 +9,8 @@ getContext()
       creds: context.authOptions
     };
 
-    const deleteOptions: IOptionsByRegExp = {
-      folder: `${context.siteUrl}/Shared Documents/sppurge`,
-      fileRegExp: new RegExp('(.*)/(.*)\.(txt|map)', 'i')
+    const deleteOptions: IOptionsByFilePath = {
+      filePath: 'Shared%20Documents/delete_me.txt'
     };
 
     return sppurge(creds, deleteOptions);
