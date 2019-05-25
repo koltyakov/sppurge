@@ -4,6 +4,7 @@
 
 [![npm version](https://badge.fury.io/js/sppurge.svg)](https://badge.fury.io/js/sppurge)
 [![Downloads](https://img.shields.io/npm/dm/sppurge.svg)](https://www.npmjs.com/package/sppurge)
+![Build Status](https://koltyakov.visualstudio.com/SPNode/_apis/build/status/sppurge?branchName=master)
 [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/sharepoint-node/Lobby)
 
 Node.js module for files deletion from SharePoint document libraries.
