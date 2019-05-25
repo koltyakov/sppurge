@@ -4,6 +4,7 @@ import * as path from 'path';
 import { IAuthContext } from 'node-sp-auth-config';
 
 import { getContext } from './utils/context';
+import { logger } from '../src/utils/logger';
 
 interface IProfile {
   src: string;
@@ -37,7 +38,7 @@ async function publishAll(profiles: IProfile[], context: IAuthContext) {
   };
   for (const profile of profiles) {
     const files = await walkSync(profile.src, []);
-    console.log(`=== Publishing "${profile.dest}" ===`);
+    logger.info(`=== Publishing "${profile.dest}" ===`);
     for (const file of files) {
       const fileOptions = {
         folder: `${profile.dest}/${path.dirname(path.relative(profile.src, file)).replace(/\\/g, '/')}`,
@@ -52,5 +53,5 @@ async function publishAll(profiles: IProfile[], context: IAuthContext) {
 
 getContext()
   .then(context => publishAll(publishProfile, context))
-  .then(console.log)
-  .catch(error => console.error(error.message));
+  .then(logger.info)
+  .catch(error => logger.error(error.message));

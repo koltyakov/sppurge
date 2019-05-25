@@ -5,6 +5,7 @@ import * as sprequest from 'sp-request';
 import { escapeURIComponent, trimMultiline, isUrlHttps } from './../utils';
 import { IContext } from '../interfaces';
 import { IContent, IFolder, IFile } from '../interfaces/content';
+import { logger } from '../utils/logger';
 
 export class Content {
 
@@ -64,7 +65,7 @@ export class Content {
           resolve(results);
         })
         .catch((err) => {
-          console.log(colors.red.bold('\nError in getFolderContent:'), colors.red(err.message));
+          logger.info(colors.red.bold('\nError in getFolderContent:'), colors.red(err.message));
           reject(err.message);
         });
     });

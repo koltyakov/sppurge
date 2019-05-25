@@ -6,9 +6,13 @@
   "main": "./dist/index.js",
   "typings": "./dist/index",
   "scripts": {
-    "build": "npm run tslint && rimraf ./dist && tsc -p .",
+    "build": "npm run tslint && npm run clean && npm run tsc",
     "tslint": "tslint -p .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "tsc": "tsc -p .",
+    "clean": "rimraf ./dist",
+    "test:prepare": "ts-node ./test/uploadStructure",
+    "test": "mocha --opts test/mocha.opts || ECHO.",
+    "test:ci": "mocha --opts test/mocha.opts --ci || ECHO."
   },
   "bugs": {
     "url": "https://github.com/koltyakov/sppurge/issues"
@@ -26,18 +30,23 @@
   "license": "MIT",
   "homepage": "https://github.com/koltyakov/sppurge#readme",
   "dependencies": {
-    "colors": "^1.3.2",
+    "colors": "^1.3.3",
     "node-sp-auth": "^2.5.7",
     "sp-request": "^2.1.3"
   },
   "devDependencies": {
+    "@types/chai": "^4.1.7",
     "@types/colors": "^1.2.1",
-    "@types/node": "^10.12.12",
-    "rimraf": "^2.6.2",
+    "@types/mocha": "^5.2.6",
+    "@types/node": "^12.0.2",
+    "chai": "^4.2.0",
+    "dotenv": "^8.0.0",
+    "mocha": "^6.1.4",
+    "rimraf": "^2.6.3",
     "spsave": "^3.1.5",
-    "ts-node": "^7.0.1",
-    "tslint": "^5.11.0",
+    "ts-node": "^8.1.1",
+    "tslint": "^5.16.0",
     "tslint-config-standard": "^8.0.1",
-    "typescript": "^3.2.2"
+    "typescript": "^3.4.5"
   }
 }

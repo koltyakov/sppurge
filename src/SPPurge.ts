@@ -14,6 +14,7 @@ import {
   IOptionsByRegExp,
   IWebPathsCache
 } from './interfaces';
+import { logger } from './utils/logger';
 
 export class SPPurge {
 
@@ -34,7 +35,7 @@ export class SPPurge {
         .then(async ({ files }) => {
           for (const file of files) {
             if ((options as IOptionsByRegExp).fileRegExp.test(file.ServerRelativeUrl)) {
-              console.log(`[${formatTime(new Date())}]`, 'SPPurge:',
+              logger.info(`[${formatTime(new Date())}]`, 'SPPurge:',
                 file.ServerRelativeUrl, '(delete)');
               await this.restApi.deleteFile(context, file.ServerRelativeUrl);
             }
@@ -63,7 +64,7 @@ export class SPPurge {
       // const localBasePath = (options as IOptionsByLocalBase).localBasePath || './';
       // path.relative(process.cwd(), path.join(localBasePath, filePath))
 
-      console.log(`[${formatTime(new Date())}]`, `SPPurge: ${decodeURIComponent(fileUri)} (delete)`);
+      logger.info(`[${formatTime(new Date())}]`, `SPPurge: ${decodeURIComponent(fileUri)} (delete)`);
 
       return this.restApi.deleteFile(context, fileUri);
     }
