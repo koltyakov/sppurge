@@ -1,7 +1,7 @@
 export const formatTime = (date: Date) => {
-  let hh = ('0' + date.getHours()).slice(-2);
-  let mm = ('0' + date.getMinutes()).slice(-2);
-  let ss = ('0' + date.getSeconds()).slice(-2);
+  const hh = ('0' + date.getHours()).slice(-2);
+  const mm = ('0' + date.getMinutes()).slice(-2);
+  const ss = ('0' + date.getSeconds()).slice(-2);
   return `${hh}:${mm}:${ss}`;
 };
 
@@ -12,8 +12,8 @@ export const escapeURIComponent = (input: string): string => {
 export const trimMultiline = (multiline: string): string => {
   return multiline
     .split('\n')
-    .map(line => line.trim())
-    .filter(line => line.length > 0)
+    .map((line) => line.trim())
+    .filter((line) => line.length > 0)
     .join('').trim();
 };
 

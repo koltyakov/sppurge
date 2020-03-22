@@ -42,9 +42,9 @@ export class Content {
       this.spr.get(restUrl, {
         agent: isUrlHttps(restUrl) ? this.agent : undefined
       })
-        .then(async response => {
+        .then(async (response) => {
           let results: IContent = {
-            folders: (response.body.d.Folders.results || []).filter(folder => {
+            folders: (response.body.d.Folders.results || []).filter((folder) => {
               return typeof folder.ListItemAllFields.Id !== 'undefined';
             }),
             files: (response.body.d.Files.results || [])

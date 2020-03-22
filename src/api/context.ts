@@ -16,18 +16,18 @@ export class Context {
 
   public getWebByAnyChildUrl(anyChildUrl: string): Promise<IWebData> {
     return new Promise((resolve, reject) => {
-      let restUrl = `${anyChildUrl}/_api/web?$select=Url,ServerRelativeUrl`;
+      const restUrl = `${anyChildUrl}/_api/web?$select=Url,ServerRelativeUrl`;
       this.spr.get(restUrl, {
         headers: {
           'Accept': 'application/json;odata=verbose'
         }
       })
-        .then(response => resolve(response.body.d))
-        .catch(err => {
+        .then((response) => resolve(response.body.d))
+        .catch((err) => {
           if (err.statusCode === 404) {
-            let childUrlArr = anyChildUrl.split('/');
+            const childUrlArr = anyChildUrl.split('/');
             childUrlArr.pop();
-            let childUrl = childUrlArr.join('/');
+            const childUrl = childUrlArr.join('/');
             if (childUrlArr.length <= 2) {
               return reject(`Wrong url, can't get Web property`);
             } else {

@@ -72,10 +72,11 @@ export class SPPurge {
 
   public deleteFileByAbsolutePath(creds: IAuthOptions, fileAbsolutePath: string): Promise<void> {
     const fileAbsPath = escapeUriPath(fileAbsolutePath);
-    return this.getWebByAnyChildUrl(creds, fileAbsolutePath).then(siteUrl => {
-      return this.delete({ siteUrl, creds }, {
+    return this.getWebByAnyChildUrl(creds, fileAbsolutePath).then((siteUrl) => {
+      const opts: IOptionsByFilePath = {
         filePath: fileAbsPath.replace(`${siteUrl}/`, '')
-      } as IOptionsByFilePath);
+      };
+      return this.delete({ siteUrl, creds }, opts);
     });
   }
 
@@ -84,7 +85,7 @@ export class SPPurge {
     let wpc: IWebPathsCache[] = [];
     // Search web url in cache
     wpc = this.webPathsCache.filter(({ folders }) => {
-      return folders.filter(f => {
+      return folders.filter((f) => {
         return fileAbsPath.indexOf(f) !== -1;
       }).length > 0;
     });
@@ -95,7 +96,7 @@ export class SPPurge {
     const { Url } = await new Context(creds).getWebByAnyChildUrl(fileAbsPath);
     const webUrl = escapeUriPath(Url);
     const folder = `${webUrl}/${fileAbsPath.replace(`${webUrl}/`, '').split('/')[0]}`;
-    wpc = this.webPathsCache.filter(w => w.webUrl === webUrl);
+    wpc = this.webPathsCache.filter((w) => w.webUrl === webUrl);
     if (wpc.length === 0) {
       this.webPathsCache.push({
         webUrl,
