@@ -12,7 +12,7 @@
     "clean": "rimraf ./dist",
     "test:prepare": "ts-node ./test/uploadStructure",
     "test": "npm run test:prepare && mocha --opts test/mocha.opts || ECHO.",
-    "test:ci": "npm run test:prepare && mocha --opts test/mocha.opts --ci || ECHO."
+    "test:ci": "mocha --opts test/mocha.opts --ci || ECHO."
   },
   "bugs": {
     "url": "https://github.com/koltyakov/sppurge/issues"
