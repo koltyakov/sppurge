@@ -7,7 +7,7 @@
 ![Build Status](https://koltyakov.visualstudio.com/SPNode/_apis/build/status/sppurge?branchName=master)
 [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/sharepoint-node/Lobby)
 
-Node.js module for files deletion from SharePoint document libraries.
+Node.js module for file deletion from SharePoint document libraries.
 
 ## Supported SharePoint versions
 
@@ -46,7 +46,7 @@ sppurge(context, options)
 
 **Additional authentication options:**
 
-Since communication module (sp-request), which is used in sppurge, had received additional SharePoint authentication methods, they are also supported in sppurge.
+Since SP client (sp-request), which is used in sppurge, had received additional SharePoint authentication methods, they are also supported in sppurge.
 
 For more information please check node-sp-auth [credential options](https://github.com/s-KaiNet/node-sp-auth#params) and [wiki pages](https://github.com/s-KaiNet/node-sp-auth/wiki).
 
@@ -57,7 +57,7 @@ For more information please check node-sp-auth [credential options](https://gith
 - `localFilePath` - local full path to file [string, optional]
 - `localBasePath` - relative folder base path within project directory [string, optional]
 
-Result file path is formed based on the following rule:
+The result file path is formed based on the following rule:
 
 - `siteUrl` + `folder` + `filePath`
 - If `filePath` is empty, then:
@@ -65,11 +65,11 @@ Result file path is formed based on the following rule:
 
 #### successHandler
 
-Callback gets called upon successful file deletion.
+The callback gets called upon successful file deletion.
 
 #### errorHandler
 
-Callback gets executed in case of exception inside `sppurge`. Accepts error object as first argument for callback.
+The callback gets executed in case of an exception inside `sppurge`. Accepts error object as first argument for callback.
 
 ### Basic usage example (delete a single file)
 
@@ -162,7 +162,7 @@ gulp.task('watch-assets', () => {
 
 > Delete JS's build folder then upload all files from/build folder
 
-One of the architectural decision in CRA is using hashes as a part of assets filenames. This allows avoiding issues related to browser cache. However, it can be challenging in term of deployment to SharePoint assets folders, as all filenames are different on each build. The further sample shows a simple use case approach of deleting files based on folder and name pattern.
+One of the architectural decisions in CRA is using hashes as a part of assets filenames. This allows avoiding issues related to browser cache. However, it can be challenging in terms of deployment to SharePoint assets folders, as all filenames are different on each build. The further sample shows a simple use case approach of deleting files based on folder and name pattern.
 
 ```javascript
 const { AuthConfig } = require('node-sp-auth-config');
