@@ -24,7 +24,7 @@ export class Context {
       })
         .then((response) => resolve(response.body.d))
         .catch((err) => {
-          if (err.statusCode === 404) {
+          if (err.response.statusCode === 404) {
             const childUrlArr = anyChildUrl.split('/');
             childUrlArr.pop();
             const childUrl = childUrlArr.join('/');
@@ -34,7 +34,7 @@ export class Context {
               return resolve(this.getWebByAnyChildUrl(childUrl));
             }
           } else {
-            return reject(err.message);
+            return reject(err);
           }
         });
     });

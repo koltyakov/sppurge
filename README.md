@@ -124,11 +124,11 @@ gulp.task('watch-assets', () => {
   return watch(config.watch.assets, function (event) {
     // Base local folder path, e.g. 'src' from which
     // project's files are mapped to SharePoint folder
-    var watchBase = config.watch.base;
+    const watchBase = config.watch.base;
 
     // When file is deleted event value is "unlink"
     if (event.event === 'unlink') {
-      var sppurgeOptions = {
+      const sppurgeOptions = {
         folder: config.sppurge.options.spRootFolder,
         filePath: path.resolve(event.path).replace(path.resolve(watchBase), '')
       };
@@ -139,8 +139,8 @@ gulp.task('watch-assets', () => {
       //   localBasePath: watchBase
       // };
       sppurge(config.sppurge.context, sppurgeOptions)
-        .then(res => console.log(`File has been deleted: ${res}`))
-        .catch(err => console.log('Error', err.message));
+        .then((res) => console.log(`File has been deleted: ${res}`))
+        .catch((err) => console.log('Error', err));
     } else {
       // Saving files to SharePoint
       gulp.src(event.path, {
@@ -204,7 +204,7 @@ authConfig.getContext().then(({ siteUrl, authOptions: creds }) => {
     .then(_ => spsave(spsaveCoreOptions, creds, spsaveFileOptions))
     .then(_ => console.log('=== Files Uploaded ==='));
 
-}).catch(err => console.log(err.message));
+}).catch(console.warn);
 ```
 
 ### Passwords storage

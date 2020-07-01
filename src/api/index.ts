@@ -30,7 +30,7 @@ export class Delete {
           'Content-Type': 'application/json; odata=verbose'
         }
       });
-    }) as any;
+    });
   }
 
   private getCachedRequest = (context: IContext): sprequest.ISPRequest => {

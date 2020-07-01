@@ -3,8 +3,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { IAuthContext } from 'node-sp-auth-config';
 
-import { getContext } from './utils/context';
-import { logger } from '../src/utils/logger';
+import { getContext } from '../utils/context';
+import { logger } from '../../src/utils/logger';
 
 interface IProfile {
   src: string;

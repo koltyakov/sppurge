@@ -65,8 +65,8 @@ export class Content {
           resolve(results);
         })
         .catch((err) => {
-          logger.info(colors.red.bold('\nError in getFolderContent:'), colors.red(err.message));
-          reject(err.message);
+          logger.info(colors.red.bold('\nError in getFolderContent:'), colors.red(err));
+          reject(err);
         });
     });
   }
