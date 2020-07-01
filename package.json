@@ -13,7 +13,9 @@
     "test:prepare": "ts-node ./test/jobs/uploadStructure",
     "test": "npm run test:prepare && mocha --config ./test/.mocharc.json || ECHO.",
     "t": "mocha --config ./test/.mocharc.json || ECHO.",
-    "test:ci": "mocha --config ./test/.mocharc.json --ci || ECHO."
+    "test:ci": "mocha --config ./test/.mocharc.json --ci || ECHO.",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "bugs": {
     "url": "https://github.com/koltyakov/sppurge/issues"
@@ -34,7 +36,8 @@
     "colors": "^1.4.0",
     "node-sp-auth": "^3.0.1",
     "node-sp-auth-config": "^3.0.1",
-    "sp-request": "^3.0.0"
+    "sp-request": "^3.0.0",
+    "snyk": "^1.357.0"
   },
   "devDependencies": {
     "@types/chai": "^4.2.11",
@@ -49,5 +52,6 @@
     "ts-node": "^8.10.2",
     "tslint": "^6.1.2",
     "typescript": "^3.9.5"
-  }
+  },
+  "snyk": true
 }
