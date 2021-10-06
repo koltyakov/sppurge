@@ -57,12 +57,9 @@ export class SPPurge {
       }
 
       let fileUri = `${context.siteUrl}/${folderPath}/${filePath}`;
-      fileUri = fileUri.replace(/\\/g, '/').replace(/\/\//g, '/');
+      fileUri = fileUri.replace(/\\/g, '/').replace(/\/+/g, '/'); // fixes #20
       fileUri = fileUri.replace('http:/', '').replace('https:/', '');
       fileUri = fileUri.replace(fileUri.split('/')[0], '');
-
-      // const localBasePath = (options as IOptionsByLocalBase).localBasePath || './';
-      // path.relative(process.cwd(), path.join(localBasePath, filePath))
 
       logger.info(`[${formatTime(new Date())}]`, `SPPurge: ${decodeURIComponent(fileUri)} (delete)`);
 
