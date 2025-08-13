@@ -33,7 +33,7 @@
   "dependencies": {
     "colors": "^1.4.0",
     "node-sp-auth": "^3.0.6",
-    "node-sp-auth-config": "^3.0.1",
+    "node-sp-auth-config": "^3.0.3",
     "sp-request": "^3.0.0"
   },
   "devDependencies": {
